@@ -1,4 +1,4 @@
-package de.androidcrypto.nfcnfcaverifyultralightev1signature;
+package de.androidcrypto.nfcmifareultralightev1verifyoriginalitysignature;
 
 import android.content.Context;
 import android.nfc.NfcAdapter;
@@ -38,9 +38,6 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
     byte[] tagIdByte, tagSignatureByte, publicKeyByte;
     boolean signatureVerfied = false;
 
-    final static String publicKeyNxpX = "494E1A386D3D3CFE3DC10E5DE68A499B";
-    final static String publicKeyNxpY = "1C202DB5B132393E89ED19FE5BE8BC61";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
 
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
-        //publicKeyNxp.setText("04494E1A386D3D3CFE3DC10E5DE68A499B1C202DB5B132393E89ED19FE5BE8BC61"); // NTAG21x
         publicKeyNxp.setText("0490933bdcd6e99b4e255e3da55389a827564e11718e017292faf23226a96614b8"); // Ultralight EV1
     }
 
@@ -88,25 +84,12 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
 
                 runOnUiThread(() -> {
                     readResult.setText("");
+                    readResult.setBackgroundColor(getResources().getColor(R.color.white));
                 });
 
                 nfcA.connect();
 
-                // check that the tag is an Ultralight EV1 manufactured by NXP - stop if not
                 System.out.println("*** tagId: " + Utils.bytesToHex(tag.getId()));
-                /*
-                String ntagVersion = NfcIdentifyNtag.checkNtagType(nfcA, tag.getId());
-                if (ntagVersion.equals("0")) {
-                    runOnUiThread(() -> {
-                        readResult.setText("NFC tag is NOT of type NXP NTAG213/215/216");
-                        Toast.makeText(getApplicationContext(),
-                                "NFC tag is NOT of type NXP NTAG213/215/216",
-                                Toast.LENGTH_SHORT).show();
-                    });
-                    return;
-                }
-
-                 */
 
                 // tag ID
                 tagIdByte = tag.getId();
@@ -175,6 +158,13 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.Reader
             e.printStackTrace();
         }
         writeToUiAppend(readResult, "SignatureVerified: " + signatureVerfied);
+        runOnUiThread(() -> {
+            if (signatureVerfied) {
+                readResult.setBackgroundColor(getResources().getColor(R.color.light_background_green));
+            } else {
+                readResult.setBackgroundColor(getResources().getColor(R.color.light_background_red));
+            }
+        });
     }
 
     // START code from NXP's AN11350 document (NTAG21x Originality Signature Validation)

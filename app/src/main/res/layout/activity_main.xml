@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="This app reads the tag id and the signature and verifys it with the Public Key for NXP Ultralight Ev1."
+            android:text="Mifare Ultralight EV1: Read the tag id and verify the originality signature against the Public Key"
             android:textAlignment="center"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="When a tag is discovered the data from the tag will be read."
+            android:text="Please tap a tag to the device's NFC reader"
             android:textAlignment="center"
             android:textSize="16sp"
             android:textStyle="bold" />
